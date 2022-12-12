@@ -1,0 +1,22 @@
+{
+  "name": "mastering-react-test-driven-development",
+  "version": "1.0.0",
+  "description": "Published by Packt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GolodovAleksey/Mastering-React-Test-Driven-Development.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GolodovAleksey/Mastering-React-Test-Driven-Development/issues"
+  },
+  "homepage": "https://github.com/GolodovAleksey/Mastering-React-Test-Driven-Development#readme",
+  "devDependencies": {
+    "create-react-app": "^5.0.1"
+  }
+}
