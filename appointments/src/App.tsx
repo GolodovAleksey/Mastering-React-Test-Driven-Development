@@ -1,24 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { AppointmentDayView, IAppointment } from './appointment';
+import { nanoid } from 'nanoid';
+
+
+const today = new Date();
+const appointmens: IAppointment[] = new Array(10).fill(null).map((_,index) => ({
+  startAt: today.setHours(9 + index, 0),
+  customer: {
+      firstName: nanoid()
+  }        
+}));
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppointmentDayView appointments={appointmens} />
     </div>
   );
 }

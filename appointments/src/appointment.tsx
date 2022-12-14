@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { toShortTime } from './utils'
 
 interface ICustomer {
@@ -18,13 +18,20 @@ interface IAppointmentsDayView extends Partial<HTMLDivElement> {
 export const Appointment = ({ customer }: IAppointment) => <div>{customer.firstName}</div>
 
 export const AppointmentDayView = ({ appointments, ...rest }: IAppointmentsDayView) => {
+    const [selectedAppoinment, setSelectedAppoinment] = useState(0);
+
     return (
         <div data-testid={rest?.dataset?.testid}>
             <ol>
-                {appointments.map((e, i) => <li key={e.startAt}>{toShortTime(e.startAt)}</li>)}
+                {appointments.map((e, i) =>
+                    <li key={e.startAt}>
+                        <button type={'button'} onClick={() => setSelectedAppoinment(i)}>
+                            {toShortTime(e.startAt)}
+                        </button>
+                    </li>)}
             </ol>
-            {appointments.length > 0
-             ? <Appointment customer={appointments[0].customer} />
-             : <p>{'There are no appointments sheduled today'}</p>}
+            {appointments.length
+                ? <Appointment customer={appointments[selectedAppoinment].customer} />
+                : <p>{'There are no appointments sheduled today'}</p>}
         </div>)
 }

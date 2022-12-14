@@ -1,9 +1,11 @@
 import React from 'react';
 // import ReactDOM from 'react-dom'
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Appointment, AppointmentDayView, IAppointment } from '../appointment';
 import { nanoid } from 'nanoid';
 import { toShortTime } from '../utils';
+
+const randomRange = (range: number) => Math.floor( range * Math.random());
 
 describe('Appointment', () => {
     let customer;
@@ -82,11 +84,31 @@ describe('AppointmentsDayView', () => {
         expect(element).not.toBeNull();
     });
 
-    test('select first appointment by default', ()=>{
+    test('select first appointment by default', async ()=>{
         render(<AppointmentDayView appointments={appointmens} />)
-        const element = screen.queryByText(appointmens[0].customer.firstName)
+        const element = await screen.findByText(appointmens[0].customer.firstName)
 
         expect(element).not.toBeNull();
-    })
+    });
+
+    test('render button in each list element with correct time', () => {
+        render(<AppointmentDayView appointments={appointmens} />)
+
+        const buttons = screen.queryAllByRole('button');
+
+        expect(buttons).toHaveLength(appointmens.length);
+        for(let i=0; i<appointmens.length; ++i){
+            expect(buttons[i].textContent).toMatch(toShortTime(appointmens[i].startAt))
+        }
+    });
+
+    test('render selected appointment', ()=>{
+        const randomIndex = randomRange(appointmens.length);
+        const { container } = render(<AppointmentDayView appointments={appointmens} />)
+        const button = screen.queryAllByRole('button')[randomIndex];
+        fireEvent.click(button);
+
+        expect(container).toHaveTextContent(appointmens[randomIndex].customer.firstName)
+    });
 
 })
