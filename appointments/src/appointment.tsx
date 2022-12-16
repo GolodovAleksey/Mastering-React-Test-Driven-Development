@@ -1,27 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { toShortTime } from './utils'
-
-interface ICustomer {
-    firstName: string;
-}
-
-export interface IAppointment {
-    customer: ICustomer;
-    startAt?: number;
-}
-
-interface IAppointmentsDayView extends Partial<HTMLDivElement> {
-    appointments: IAppointment[];
-}
+import { IAppointment, IAppointmentsDayView, ICustomerField } from './interfaces';
+import { APPOINTMENT_DAY_VIEW, APPOINTMENT_DETAILS_VIEW } from './constants'
 
 
-export const Appointment = ({ customer }: IAppointment) => <div>{customer.firstName}</div>
+export const Appointment = ({ customer }: IAppointment) => (
+    <table id={APPOINTMENT_DETAILS_VIEW}>
+        <tbody>
+            {Object.keys(customer).map((key) => (
+                <tr key={key}>
+                    <td>{key}</td>
+                    <td>
+                        {customer[key as ICustomerField]}
+                    </td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+)
 
 export const AppointmentDayView = ({ appointments, ...rest }: IAppointmentsDayView) => {
     const [selectedAppoinment, setSelectedAppoinment] = useState(0);
 
     return (
-        <div data-testid={rest?.dataset?.testid}>
+        <div data-testid={rest?.dataset?.testid} id={APPOINTMENT_DAY_VIEW}>
             <ol>
                 {appointments.map((e, i) =>
                     <li key={e.startAt}>

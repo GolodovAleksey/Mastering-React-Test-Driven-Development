@@ -1,0 +1,103 @@
+$row-height: 50px;
+$side-controls-width: 200px;
+
+*{
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+#AppointmentDayView {
+  display: flex;
+  align-items: flex-start;
+
+
+  ol {
+    min-width: $side-controls-width;
+    
+    margin: 0 15px 0;
+    padding-top: 15px;
+
+    & li {
+      list-style-type: none;
+      
+      button{
+        width: 100%;
+        height: $row-height;
+        margin-bottom: 10px;
+        border: none;
+        box-shadow: 0px 1px 3px 2px rgba(grey , 0.3);
+        background: #f0f0f0;
+        transition: background 0.3s ease-in;
+        &:hover{
+          background-color: rgba(slategray, 0.5);
+        }
+      }
+
+      
+    }
+  }
+}
+
+#AppointmentDetailsView {
+  padding: 15px 5vw;
+  flex-grow: 1;
+
+  tr {
+    min-height: $row-height;
+    height: $row-height;
+
+    & td {
+      &:first-child {
+        color: red;
+      }
+      +td{
+        width: 100%;
+        padding: 8px;
+        background: #61dafb;
+      }
+    }
+  }
+
+
+
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

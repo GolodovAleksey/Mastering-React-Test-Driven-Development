@@ -4,7 +4,7 @@
   "description": "Published by Packt",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/GolodovAleksey/Mastering-React-Test-Driven-Development#readme",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "create-react-app": "^5.0.1"
-  }
+  },
+  "dependencies": {}
 }

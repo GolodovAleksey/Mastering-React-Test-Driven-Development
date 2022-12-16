@@ -1,55 +1,66 @@
 import React from 'react';
-// import ReactDOM from 'react-dom'
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Appointment, AppointmentDayView, IAppointment } from '../appointment';
+import { Appointment, AppointmentDayView } from '../appointment';
 import { nanoid } from 'nanoid';
-import { toShortTime } from '../utils';
+import { randomRange, toShortTime } from '../utils';
+import { appointmens, getCustomer } from '../fixtures';
+import { ICustomerField } from '../interfaces';
 
-const randomRange = (range: number) => Math.floor( range * Math.random());
+
 
 describe('Appointment', () => {
     let customer;
-    let container: HTMLDivElement;
+    const randomCustomer = getCustomer();
 
-    beforeEach(() => {
-        container = document.createElement('div');
-    })
+    const CUSTOMER_TEST_TABLE = Object
+        .keys(randomCustomer)
+        .map(key => [key, randomCustomer[key as ICustomerField] || ''])
 
-    const testRender = (component: JSX.Element) => render(component, { container })
+    const CUSTOMER_FIELD = Object.keys(getCustomer()) as ICustomerField[];
 
-    test('render the customer first name', () => {
-        customer = { firstName: 'Ashley' };
-        const component = <Appointment customer={customer} />
+    test('render customer first name', () => {
+        customer = getCustomer();
+        const { container } = render(<Appointment customer={customer} />);
 
-        testRender(component);
-
-        expect(container.textContent).toMatch('Ashley');
+        expect(container.textContent).toMatch(customer.firstName);
     });
 
-    test('render another customer first name', () => {
-        const name = 'Jordan'
-        customer = { firstName: name };
-        const component = <Appointment customer={customer} />
+    test.each(CUSTOMER_TEST_TABLE)('test %s against render as %s', (_, expected) => {
+        render(<Appointment customer={randomCustomer} />);
+        const element = screen.queryByText(expected);
 
-        testRender(component);
-
-        expect(container.textContent).toMatch(name);
+        expect(element).not.toBeNull();
     });
+
+    test.each(CUSTOMER_TEST_TABLE)('render "%s" field and value as table cells', (field, expected) => {
+        render(<Appointment customer={randomCustomer} />);
+        
+        const fieldCell = screen.queryByRole('cell', {
+            name: field
+        });
+
+        const valueCell = screen.queryByRole('cell', {
+            name: expected
+        });
+        
+        expect(fieldCell).not.toBeNull();
+        expect(valueCell).not.toBeNull();
+    });
+
+
+    // test('render customer all fields', () => {
+    //     const customer = getCustomer();
+    //     render(<Appointment customer={customer} />);
+
+    //     for( const field of CUSTOMER_FIELD){
+    //         const element = screen.queryByText(customer[field] || '')
+
+    //         expect(element).not.toBeNull();
+    //     }
+    // });
 });
 
 describe('AppointmentsDayView', () => {
-    let container: HTMLDivElement;
-    const today = new Date();
-    const appointmens: IAppointment[] = new Array(10).fill(null).map((_,index) => ({
-        startAt: today.setHours(9 + index, 0),
-        customer: {
-            firstName: nanoid(8)
-        }        
-    }));
-
-    beforeEach(() => {
-        container = document.createElement('div');
-    })
 
     test('render div with right id', () => {
         const testID = nanoid();
@@ -59,8 +70,8 @@ describe('AppointmentsDayView', () => {
     });
 
     test('render multiple appointments in an ol elements', () => {
-        
-        
+
+
         render(<AppointmentDayView appointments={appointmens} />)
         const appointmentsList = screen.getByRole('list');
         const appointmentsItems = screen.getAllByRole('listitem');
@@ -71,7 +82,7 @@ describe('AppointmentsDayView', () => {
 
     test('render multiple appointments with right date display', () => {
         render(<AppointmentDayView appointments={appointmens} />)
-        for(const entry of appointmens){
+        for (const entry of appointmens) {
             const element = screen.getByText(toShortTime(entry.startAt));
             expect(element).not.toBeNull();
         }
@@ -80,11 +91,11 @@ describe('AppointmentsDayView', () => {
     test('initialy show message "There are no apointments today"', () => {
         render(<AppointmentDayView appointments={[]} />)
         const element = screen.queryByText('There are no appointments sheduled today');
-        
+
         expect(element).not.toBeNull();
     });
 
-    test('select first appointment by default', async ()=>{
+    test('select first appointment by default', async () => {
         render(<AppointmentDayView appointments={appointmens} />)
         const element = await screen.findByText(appointmens[0].customer.firstName)
 
@@ -97,12 +108,12 @@ describe('AppointmentsDayView', () => {
         const buttons = screen.queryAllByRole('button');
 
         expect(buttons).toHaveLength(appointmens.length);
-        for(let i=0; i<appointmens.length; ++i){
+        for (let i = 0; i < appointmens.length; ++i) {
             expect(buttons[i].textContent).toMatch(toShortTime(appointmens[i].startAt))
         }
     });
 
-    test('render selected appointment', ()=>{
+    test('render selected appointment', () => {
         const randomIndex = randomRange(appointmens.length);
         const { container } = render(<AppointmentDayView appointments={appointmens} />)
         const button = screen.queryAllByRole('button')[randomIndex];
