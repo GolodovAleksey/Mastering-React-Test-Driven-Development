@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { toShortTime } from './utils'
 import { IAppointment, IAppointmentsDayView, ICustomerField } from './interfaces';
 import { APPOINTMENT_DAY_VIEW, APPOINTMENT_DETAILS_VIEW } from './constants'
+import _ from 'lodash';
 
 
 export const Appointment = ({ customer }: IAppointment) => (
@@ -9,7 +10,7 @@ export const Appointment = ({ customer }: IAppointment) => (
         <tbody>
             {Object.keys(customer).map((key) => (
                 <tr key={key}>
-                    <td>{key}</td>
+                    <td>{ _.camelCase(key)}</td>
                     <td>
                         {customer[key as ICustomerField]}
                     </td>
