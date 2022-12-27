@@ -1,6 +1,7 @@
-import { IAppointment, APPOINTMENT_SERVICE, ICustomer } from '../interfaces'
+import { IAppointment, ICustomer } from '../interfaces'
 import { faker } from '@faker-js/faker';
 import { randomRange } from '../utils';
+import { APPOINTMENT_SERVICE } from '../constants';
 
 const today = new Date();
 

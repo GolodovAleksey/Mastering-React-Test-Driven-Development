@@ -20,11 +20,11 @@ export const Appointment = ({ customer }: IAppointment) => (
     </table>
 )
 
-export const AppointmentDayView = ({ appointments, ...rest }: IAppointmentsDayView) => {
+export const AppointmentDayView = ({ appointments, testid, ...rest }: IAppointmentsDayView) => {
     const [selectedAppoinment, setSelectedAppoinment] = useState(0);
 
     return (
-        <div data-testid={rest?.dataset?.testid} id={APPOINTMENT_DAY_VIEW}>
+        <div data-testid={testid} id={APPOINTMENT_DAY_VIEW}>
             <ol>
                 {appointments.map((e, i) =>
                     <li key={e.startAt}>

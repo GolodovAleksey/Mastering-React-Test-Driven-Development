@@ -14,9 +14,10 @@ describe('Appointment', () => {
 
     const CUSTOMER_TEST_TABLE = Object
         .keys(randomCustomer)
-        .map(key => [key, randomCustomer[key as ICustomerField] || ''])
+        .map(key => [key, randomCustomer[(key as ICustomerField)] || ''])
+        
 
-    const CUSTOMER_FIELD = Object.keys(getCustomer()) as ICustomerField[];
+    // const CUSTOMER_FIELD = Object.keys(getCustomer()) as ICustomerField[];
 
     test('render customer first name', () => {
         customer = getCustomer();
@@ -64,7 +65,7 @@ describe('AppointmentsDayView', () => {
 
     test('render div with right id', () => {
         const testID = nanoid();
-        render(<AppointmentDayView appointments={[]} dataset={{ 'testid': testID }} />)
+        render(<AppointmentDayView appointments={[]} testid= {testID} />)
 
         expect(screen.getByTestId(testID)).not.toBeNull();
     });

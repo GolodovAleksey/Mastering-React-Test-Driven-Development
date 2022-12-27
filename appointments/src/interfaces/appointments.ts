@@ -1,3 +1,5 @@
+import { APPOINTMENT_SERVICE, FORM_FIELDS } from "../constants";
+
 export interface ICustomer {
     firstName: string;
     lastName: string;
@@ -14,14 +16,20 @@ export interface IAppointment {
     startAt?: number;
 }
 
-export interface IAppointmentsDayView extends Partial<HTMLDivElement> {
+interface IRenderable {
+    testid?: string
+}
+
+export interface IAppointmentsDayView extends IRenderable {
     appointments: IAppointment[];
 }
 
-export enum APPOINTMENT_SERVICE{
-    HAIR_CUT = 'Hair cut service',
-    HAIR_COLORING = 'Hair coloring service',
-    NAILS = 'Nails service',
-    FEETS = 'Feets service',
-    LIPS = 'Lips service'
+export interface ICustomerForm extends IRenderable {
+    [FORM_FIELDS.FIRST_NAME]?: string;
+    onSubmit?: (values: Partial<Record<IFormFields, any>>) => void
 }
+
+type FormKeys = keyof typeof FORM_FIELDS;
+
+export type IFormFields = typeof FORM_FIELDS[FormKeys];
+export type IFormValues = Partial<Record<IFormFields, any>>;
