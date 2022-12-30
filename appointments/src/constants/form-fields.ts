@@ -1,9 +1,13 @@
-const FIRST_NAME = 'firstName';
-const SECOND_NAME = 'secondName';
+import { ICustomer } from "../interfaces";
 
-export const FORM_FIELDS = {
-    FIRST_NAME,
-    SECOND_NAME
+const FIRST_NAME = 'firstName';
+const SECOND_NAME = 'lastName';
+
+
+export const FORM_FIELDS: Partial<Record<keyof ICustomer, string>> = {
+    firstName : 'firstName',
+    lastName: 'lastName',
+    phoneNumber: 'phoneNumber'
 } as const;
 
 export const htmlForInput = (id: string) => `${id}-input`;

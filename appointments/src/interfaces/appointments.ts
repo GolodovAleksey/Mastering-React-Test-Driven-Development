@@ -25,11 +25,16 @@ export interface IAppointmentsDayView extends IRenderable {
 }
 
 export interface ICustomerForm extends IRenderable {
-    [FORM_FIELDS.FIRST_NAME]?: string;
-    onSubmit?: (values: Partial<Record<IFormFields, any>>) => void
+    customer: ICustomer;
+    onSubmit?: (values: Partial<Record<keyof ICustomer, string>>) => void;
+}
+
+export interface IAppointmentForm extends IRenderable {
+    avaliableServices?: string[];
+    service?: string;
 }
 
 type FormKeys = keyof typeof FORM_FIELDS;
 
 export type IFormFields = typeof FORM_FIELDS[FormKeys];
-export type IFormValues = Partial<Record<IFormFields, any>>;
+export type IFormValues = Partial<Record<keyof ICustomer, string>>;
